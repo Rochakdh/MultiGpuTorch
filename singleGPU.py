@@ -43,7 +43,24 @@ class Trainer:
             if epoch % self.save_every == 0:
                 self._save_checkpoint(epoch)
 
-model = torch.nn.Sequential(
-    torch.
+def load_train_objs():
+    train_set = pass
+    model = torch.nn.Linear(20,1)
+    optimizer = torch.optim.SGD(model.parameters(),lr=1e-3)
+    return train_set,model,optimizer
 
-)
+def prepare_dataloader(dataset:Dataset,batch_size:int):
+    return DataLoader(dataset,batch_size=batch_size,pin_memore= True,shuffle=True)
+
+def main(device,total_epochs, save_every):
+    dataset,model,optimzer = load_train_objs()
+    train_data = prepare_dataloader(dataset,batch_size=100)
+    trainer = Trainer(model,train_data,optimizer,device,save_every)
+    trainer.train(total_epochs)
+
+if __name__ == "__main__":
+    import sys
+    total_epochs = int(sys.argv[1])
+    save_every = int(sys.argv[2])
+    device = 0
+    main(device,total_epochs,save_every)
