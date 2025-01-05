@@ -18,7 +18,7 @@ class Trainer:
         self.save_every=save_every
     
     def _run_batch(self,sorce,targets):
-        self.optimizer.zero_grads()
+        self.optimizer.zero_grad()
         output=self.model(sorce)
         loss = torch.nn.CrossEntropyLoss()(output,targets)
         loss.backward()
@@ -28,10 +28,10 @@ class Trainer:
     def _run_epoch(self,epoch):
         b_sz = len(next(iter(self.train_dataset))[0]) #how this works? or check if it runs in loop. Last batch will be correctly specized if they are une
         print(f"[GPU{self.gpu_id}] Epoch{epoch} | Batchsize:{b_sz} | Steps:{len(self.train_dataset)}")
-        for soruce,target in self.train_dataset:
+        for source,target in self.train_dataset:
             source = source.to(self.gpu_id)
             target = target.to(self.gpu_id)
-            self._run_batch(soruce,target)
+            self._run_batch(source,target)
     
     def _save_checkpoint(self,epoch):
         ckp = self.model.state_dict()
@@ -51,10 +51,10 @@ def load_train_objs():
     return train_set,model,optimizer
 
 def prepare_dataloader(dataset:Dataset,batch_size:int):
-    return DataLoader(dataset,batch_size=batch_size,pin_memore= True,shuffle=True)
+    return DataLoader(dataset,batch_size=batch_size,pin_memory = True,shuffle=True)
 
 def main(device,total_epochs, save_every):
-    dataset,model,optimzer = load_train_objs()
+    dataset,model,optimizer = load_train_objs()
     train_data = prepare_dataloader(dataset,batch_size=100)
     trainer = Trainer(model,train_data,optimizer,device,save_every)
     trainer.train(total_epochs)
