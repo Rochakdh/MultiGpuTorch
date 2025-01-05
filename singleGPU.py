@@ -1,4 +1,5 @@
 import torch
+from datautils import MyTrainDataset
 from torch.utils.data import Dataset,DataLoader
 
 class Trainer:
@@ -44,7 +45,7 @@ class Trainer:
                 self._save_checkpoint(epoch)
 
 def load_train_objs():
-    train_set = pass
+    train_set = MyTrainDataset(1594)
     model = torch.nn.Linear(20,1)
     optimizer = torch.optim.SGD(model.parameters(),lr=1e-3)
     return train_set,model,optimizer
