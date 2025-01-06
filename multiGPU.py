@@ -21,8 +21,8 @@ def ddp_setup(rank, world_size):
         rank (int): Unique identifier for the process.
         world_size (int): Total number of processes.
     """
-    os.environ["MASTER_ADDR"] = "localhost"
-    os.environ["MASTER_PORT"] = "12355"
+    os.environ["MASTER_ADDR"] = "localhost" #main machine addr
+    os.environ["MASTER_PORT"] = "12355" #main machine port
     init_process_group(backend="nccl", rank=rank, world_size=world_size)
 
 
